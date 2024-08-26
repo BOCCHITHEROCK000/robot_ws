@@ -7,11 +7,11 @@ class ZedDataLogger(Node):
     def __init__(self):
         super().__init__('zed_data_logger') #노드 이름
         #파일 저장 경로 설정
-        self.file_path = os.path.join(os.path.expanduser("~"), "zed_velocity_data.txt")
+        self.file_path = os.path.join('/home/kon/ros2_ws/src/zed_data_logger', "zed_pose_data.txt")
 
         #선속도 각속도 초기화 
-        self.latest_linear_velocity = None
-        self.latest_angular_velocity = None
+        self.latest_position= None
+        self.latest_orientation= None
 
         qos_profile = rclpy.qos.QoSProfile(depth=10)
         self.subscription = self.create_subscription(
@@ -27,15 +27,15 @@ class ZedDataLogger(Node):
 
     #callback 함수 -> 받아온 값을 call 
     def listener_callback(self, msg):
-        self.latest_linear_velocity = msg.twist.twist.linear
-        self.latest_angular_velocity = msg.twist.twist.angular
+        self.latest_position= msg.pose.pose.position
+        self.latest_orientation= msg.pose.pose.orientation
 
     def save_data_to_file(self):
         #만약 이 두 값이 잘 받아지면 값을 txt에 저장
-        if self.latest_linear_velocity and self.latest_angular_velocity:
+        if self.latest_position and self.latest_orientation:
             data_to_write = (
-                f"linear Velocity: x = {self.latest_linear_velocity.x}, y = {self.latest_linear_velocity.y}, z = {self.latest_linear_velocity.z}\n"
-                f"Angular Velocity: x = {self.latest_angular_velocity.x}, y = {self.latest_angular_velocity.y}, z = {self.latest_angular_velocity.z}\n"
+                f"Position: x = {self.latest_position.x}, y = {self.latest_position.y}, z = {self.latest_position.z}\n"
+                f"Orientation: x = {self.latest_orientation.x}, y = {self.latest_orientation.y}, z = {self.latest_orientation.z}\n"
                 "--------------------------\n"
             )
             self.file.write(data_to_write) #위에꺼 적겠다
@@ -61,6 +61,8 @@ def main(args = None):
 if __name__ == '__main__':
     main()
 
+
+    
 
     
 
