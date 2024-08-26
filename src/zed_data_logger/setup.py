@@ -15,6 +15,7 @@ setup(
     entry_points={
         'console_scripts': [
             'zed_data_logger = zed_data_logger.zed_data_logger:main',
+            'zed_data_velocity = zed_data_logger.zed_data_velocity:main',
         ],
     },
 )

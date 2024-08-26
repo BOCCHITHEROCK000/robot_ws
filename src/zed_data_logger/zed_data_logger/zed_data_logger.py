@@ -7,16 +7,16 @@ class ZedDataLogger(Node):
     def __init__(self):
         super().__init__('zed_data_logger') #노드 이름
         #파일 저장 경로 설정
-        self.file_path = os.path.join('/home/kon/ros2_ws/src/zed_data_logger', "zed_pose_data.txt")
+        self.file_path = os.path.join('/home/kon/robot_ws/src/zed_data_logger', "zed_pose_data.txt")
 
-        #선속도 각속도 초기화 
+        #위치, 방향 초기화 
         self.latest_position= None
         self.latest_orientation= None
 
         qos_profile = rclpy.qos.QoSProfile(depth=10)
         self.subscription = self.create_subscription(
             Odometry, #토픽 타입
-            'zed/zed_node/odom', #zed 카메라의 odom 토픽 이름 -> 원하는 결과(선.각속도)를 얻기 위한 토픽 이름
+            'zed/zed_node/odom', #zed 카메라의 odom 토픽 이름 -> 원하는 결과(위치,방향)를 얻기 위한 토픽 이름
             self.listener_callback,
             qos_profile 
         )
