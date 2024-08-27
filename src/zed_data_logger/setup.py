@@ -16,6 +16,7 @@ setup(
         'console_scripts': [
             'zed_data_logger = zed_data_logger.zed_data_logger:main',
             'zed_data_velocity = zed_data_logger.zed_data_velocity:main',
+            'zed_data_depth = zed_data_logger.zed_data_depth:main',
         ],
     },
 )
